@@ -1,0 +1,690 @@
+{
+	"info": {
+		"_postman_id": "81ecb081-3b88-4979-bb9b-8a0ce09f963f",
+		"name": "Backend initial setup",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "48331400",
+		"_collection_link": "https://darkskyofficially-3537713.postman.co/workspace/xd%3F's-Workspace~7b215bbd-647e-48b0-8c64-fa3bf2e5e8cf/collection/48331400-81ecb081-3b88-4979-bb9b-8a0ce09f963f?action=share&source=collection_link&creator=48331400"
+	},
+	"item": [
+		{
+			"name": "common",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "Ragistation",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\": \"User firstName\",\r\n    \"lastName\": \"User Lastname\",\r\n    \"email\": \"user@gmail.com\",\r\n    \"password\": \"1qazxsw2\",\r\n    \"role\": \"user\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/register",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verify Email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let response = pm.response.json();",
+											"",
+											"if (response.code === 200) {",
+											"    let accessToken = response.data.attributes.tokens.access.token;",
+											"    let role = response.data.attributes.user.role;",
+											"    pm.collectionVariables.set(`${role}AccessToken`, accessToken);",
+											"    pm.collectionVariables.set(`accessToken`, accessToken);",
+											"    console.log(\"Access token set in collectionVariables: userAccessToken\");",
+											"} else {",
+											"    console.log(\"Login failed: \" + response.message);",
+											"}",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"shadathossan3500@gmail.com\",\r\n    \"code\": \"274369\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/verify-email",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"verify-email"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let response = pm.response.json();\r",
+											"\r",
+											"if (response.code === 200) {\r",
+											"    let accessToken = response.data.attributes.tokens.access.token;\r",
+											"    let role = response.data.attributes.user.role;\r",
+											"    pm.collectionVariables.set(`${role}AccessToken`, accessToken);\r",
+											"    pm.collectionVariables.set(`accessToken`, accessToken);\r",
+											"    console.log(\"Access token set in collectionVariables: userAccessToken\");\r",
+											"} else {\r",
+											"    console.log(\"Login failed: \" + response.message);\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"shadatVai@gmail.com\",\r\n    \"password\": \"1qazxsw2\",\r\n    \"fcmToken\": \"The firebase FCM token\" // // onlly uee for push notification / mobile focus *\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/login",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Forgot Password",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"shadathossan3500@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/forgot-password",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"forgot-password"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Reset Password",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"user@gmail.com\",\r\n    \"password\": \"2wsxzaq1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/reset-password",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"reset-password"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Change Password",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"oldPassword\": \"2wsxzaq1\",\r\n    \"newPassword\": \"1qazxsw2\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/change-password",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"change-password"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "logout",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMTA3LTA0LTA4VDA1OjIzOjQxLjYzNFoiLCJpYXQiOjE3Mzk2ODM0MjEsImV4cCI6MTczOTY4MzQyMSwiYWN0aXZpdHkiOiI2N2IxNjZiYTg5ZmY1YmE4MzU4ZjNmMDcifQ.TgJ4poj6MmvUCNzZwItXggZdqdJqxSyxs8V0XaYcMCY\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/logout",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Profile",
+					"item": [
+						{
+							"name": "Get Profile",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/users/self/in",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"self",
+										"in"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Profile Update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "firstName",
+											"value": "Md. Shadat",
+											"type": "text"
+										},
+										{
+											"key": "lastName",
+											"value": "Hossain",
+											"type": "text"
+										},
+										{
+											"key": "callingCode",
+											"value": "+880",
+											"type": "text"
+										},
+										{
+											"key": "phoneNumber",
+											"value": "1757054846",
+											"type": "text"
+										},
+										{
+											"key": "nidNumber",
+											"value": "4678972377",
+											"type": "text"
+										},
+										{
+											"key": "dataOfBirth",
+											"value": "2000-07-27",
+											"type": "text"
+										},
+										{
+											"key": "address",
+											"value": "Dhaka, Bangladesh",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"type": "file",
+											"src": "/C:/Users/bdCalling/Downloads/colleagues.JPG"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/users/self/update",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"self",
+										"update"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Profile",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"password\": \"1qazxsw2\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/delete-me",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"delete-me"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Settings",
+					"item": [
+						{
+							"name": "Create/Modify AboutUs",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"content\":\"this is a content\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/settings/about",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"settings",
+										"about"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get About Us",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/settings/about",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"settings",
+										"about"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create/Modify TermsAndCondition",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"content\": \"John Dozzze\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/settings/terms",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"settings",
+										"terms"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get TermsAndCondition",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"content\": \"John Dozzze\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/settings/terms",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"settings",
+										"terms"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create/Modify PrivacyPolicy",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"content\": \"John Dozzze\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/settings/privacy",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"settings",
+										"privacy"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get PrivacyPolicy",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"content\": \"John Dozzze\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/settings/privacy",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"settings",
+										"privacy"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create/Modify Support",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"content\": \"John Dozzze\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/settings/support",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"settings",
+										"support"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Support",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"content\": \"John Dozzze\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/settings/support",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"settings",
+										"support"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://10.0.60.206:3000/api/v1"
+		}
+	]
+}

@@ -1,7 +1,10 @@
 const httpStatus = require("http-status");
 const ApiError = require("../utils/ApiError");
 const { tokenTypes } = require("../config/tokens");
-const { userService, tokenService } = require(".");
+const tokenService = require("./token.service");
+const userService = require("./user.service");
+const { Token } = require("../models");
+
 
 
 const loginUserWithEmailAndPassword = async (email, password, fcmToken) => {

@@ -2,7 +2,6 @@ const httpStatus = require("http-status");
 const ApiError = require("../utils/ApiError");
 const logger = require("../config/logger");
 const { Tasks } = require("../models");
-const { userService } = require(".");
 
 const createTask = async (data) => {
 
